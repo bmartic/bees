@@ -1,4 +1,4 @@
-This was my attempt to get a specific type of coordinate for a species off of the DiscoverLife.org page.
+This code is to get a specially coded of coordinate for a species off of the DiscoverLife.org page.
 Once the species is typed into the search bar, it opens up a little map.
 When you click on the map you can see all the coordinates with multiple different labels attached to the bee sighting. 
 Here we were only interested in those marked AMNH_BEES.....
