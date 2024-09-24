@@ -1,0 +1,41 @@
+library(rgbif)
+library(tidyverse)
+library(dplyr)
+library(purrr)
+library(readxl)
+library(openxlsx)
+library(xlsx)
+
+#import species list from excel
+Species_for_Images <- read_excel("Bees/Species for Images.xlsx")
+#View(Species_for_Images)
+
+media_image_results <- sapply(Species_for_Images, function(i) {
+    #test is a nested list
+    test <- occ_search(scientificName = i, mediaType = "StillImage", continent = "north_america", basisOfRecord = "PRESERVED_SPECIMEN")
+    #View(test)
+    #glimpse(test)
+
+    #find the rows marked identifier where the URLs are
+    #unlist(test)[grepl('.identifier',names(unlist(test)),fixed=T)]
+    image_links <- unlist(test)[grepl('.identifier',names(unlist(test)),fixed=T)]
+    #View(image_links)
+
+    #separates the identifiers with the ones specifically for the images
+    media_image <- unlist(image_links)[grepl('media', names(unlist(image_links)), fixed =T)]
+    #View(media_image)
+
+})
+
+Species_with_URL <- data.frame(i, media_image_results)
+
+View(Species_with_URL)
+
+write.xlsx(Species_with_URL, "C:/Users/Biljana/Documents/Bees/SpeciesWithURL.xlsx")
+
+#filter out Kansas university
+SpeciesURLnoKA <- Species_with_URL %>% 
+  filter(!(str_detect(Species, '.ku.')))
+View(SpeciesURLnoKA)
+
+write.xlsx(SpeciesURLnoKA, "C:/Users/Biljana/Documents/Bees/SpeciesWithURLnoKA.xlsx")
