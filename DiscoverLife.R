@@ -10,8 +10,8 @@ library(writexl)
 #the link from the discover life website after the species search on the map with coordinates
 link = "https://www.discoverlife.org/mp/20m?kind=Trigonisca+vitrifrons"
 
-#this supposed to be labeled as species but I'm afraid to change it
-genera = "Trigonisca vitrifrons"
+#to filter out the species name from the coordinates
+species = "Trigonisca vitrifrons"
 
 discover <- read_html(link)
 
@@ -44,7 +44,7 @@ bees$URL <- paste('https://www.discoverlife.org', bees$A, sep='')
 #View(bees)
 
 #clean up coordinates
-bees$coor <- sub(genera, "", bees$B)
+bees$coor <- sub(species, "", bees$B)
 bees$coor2 <- sub("--.*", "", bees$coor)
 bees$coor2 <- gsub("^\\s+|\\s+$","", bees$coor2)
 #View(bees)
@@ -61,9 +61,9 @@ bees2 <- bees2 %>% separate(Long, into = c('NumLong', 'DirLong'), sep = -1, conv
 #View(bees2)
 
 #get rid of the decimal
-bees2$NumLat <- gsub("°", "", bees2$NumLat)
+bees2$NumLat <- gsub("Â°", "", bees2$NumLat)
 #print(bees2$NumLat)
-bees2$NumLong <- gsub("°", "", bees2$NumLong)
+bees2$NumLong <- gsub("Â°", "", bees2$NumLong)
 #print(bees2$NumLong)
 #double check numeric
 bees2$NumLat <- as.numeric(bees2$NumLat)
